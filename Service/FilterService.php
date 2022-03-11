@@ -73,18 +73,14 @@ class FilterService
     }
 
     /**
-     * @param string $path
-     * @param string $filter
-     * @param string $resolver
+     * @param string      $path
+     * @param string      $filter
+     * @param string|null $resolver
      *
-     * @return string
+     * @return BinaryInterface
      */
-    public function getUrlOfFilteredImage($path, $filter, $resolver = null)
+    public function getFilteredImageContent($path, $filter, $resolver = null)
     {
-        if ($this->cacheManager->isStored($path, $filter, $resolver)) {
-            return $this->cacheManager->resolve($path, $filter, $resolver);
-        }
-
         $filteredBinary = $this->createFilteredBinary(
             $path,
             $filter
@@ -96,6 +92,24 @@ class FilterService
             $filter,
             $resolver
         );
+
+        return $filteredBinary;
+    }
+
+    /**
+     * @param string      $path
+     * @param string      $filter
+     * @param string|null $resolver
+     *
+     * @return string
+     */
+    public function getUrlOfFilteredImage($path, $filter, $resolver = null)
+    {
+        if ($this->cacheManager->isStored($path, $filter, $resolver)) {
+            return $this->cacheManager->resolve($path, $filter, $resolver);
+        }
+
+        $this->getFilteredImageContent($path, $filter, $resolver);
 
         return $this->cacheManager->resolve($path, $filter, $resolver);
     }
