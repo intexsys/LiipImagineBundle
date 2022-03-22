@@ -22,6 +22,21 @@ class FilterExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFilter('imagine_filter', [$this, 'filter']),
+            new \Twig_SimpleFilter('imagine_resolve', [$this, 'resolve']),
         ];
+    }
+
+    /**
+     * Gets target browser path for the image and filter to apply.
+     *
+     * @param string      $path
+     * @param string      $filter
+     * @param string|null $resolver
+     *
+     * @return string
+     */
+    public function resolve($path, $filter, $resolver = null)
+    {
+        return $this->cache->resolve($path, $filter, $resolver);
     }
 }
