@@ -19,13 +19,9 @@ use Liip\ImagineBundle\Message\Handler\WarmupCacheHandler;
 use Liip\ImagineBundle\Message\WarmupCache;
 use Liip\ImagineBundle\Service\FilterService;
 use Liip\ImagineBundle\Tests\Functional\AbstractWebTestCase;
-use ReflectionClass;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 /**
- * @requires PHP 7.1
- *
  * @covers \Liip\ImagineBundle\Message\Handler\WarmupCacheHandler
  */
 class WarmupCacheHandlerTest extends AbstractWebTestCase
@@ -35,13 +31,6 @@ class WarmupCacheHandlerTest extends AbstractWebTestCase
         if (!interface_exists(MessageBusInterface::class)) {
             $this->markTestSkipped('Requires the symfony/messenger package.');
         }
-    }
-
-    public function testShouldImplementMessageHandlerInterface(): void
-    {
-        $rc = new ReflectionClass(WarmupCacheHandler::class);
-
-        $this->assertTrue($rc->implementsInterface(MessageHandlerInterface::class));
     }
 
     public function testCouldBeConstructedWithExpectedArguments(): void
@@ -76,7 +65,7 @@ class WarmupCacheHandlerTest extends AbstractWebTestCase
      */
     private function createFilterManagerMock()
     {
-        return $this->getService('liip_imagine.filter.manager');
+        return $this->getService('test.liip_imagine.filter.manager');
     }
 
     /**
@@ -84,6 +73,6 @@ class WarmupCacheHandlerTest extends AbstractWebTestCase
      */
     private function createFilterServiceMock()
     {
-        return $this->getService('liip_imagine.service.filter');
+        return $this->getService('test.liip_imagine.service.filter');
     }
 }

@@ -42,7 +42,7 @@ class AbstractCommandTestCase extends AbstractSetupWebTestCase
     {
         foreach ($images as $i) {
             foreach ($filters as $f) {
-                $this->assertFileDoesNotExist(sprintf('%s/%s/%s', $this->cacheRoot, $f, $i));
+                $this->assertFileDoesNotExist(\sprintf('%s/%s/%s', $this->cacheRoot, $f, $i));
             }
         }
     }
@@ -55,7 +55,7 @@ class AbstractCommandTestCase extends AbstractSetupWebTestCase
     {
         foreach ($images as $i) {
             foreach ($filters as $f) {
-                $this->assertFileExists(sprintf('%s/%s/%s', $this->cacheRoot, $f, $i));
+                $this->assertFileExists(\sprintf('%s/%s/%s', $this->cacheRoot, $f, $i));
             }
         }
     }
@@ -82,7 +82,7 @@ class AbstractCommandTestCase extends AbstractSetupWebTestCase
     {
         foreach ($images as $i) {
             foreach ($filters as $f) {
-                $this->assertStringContainsString(sprintf('%s[%s] (failed)', $i, $f), $output);
+                $this->assertStringContainsString(\sprintf('%s[%s] (failed)', $i, $f), $output);
             }
         }
     }
@@ -107,7 +107,7 @@ class AbstractCommandTestCase extends AbstractSetupWebTestCase
     {
         foreach ($images as $i) {
             foreach ($filters as $f) {
-                if (file_exists($f = sprintf('%s/%s/%s', $this->cacheRoot, $f, $i))) {
+                if (file_exists($f = \sprintf('%s/%s/%s', $this->cacheRoot, $f, $i))) {
                     @unlink($f);
                 }
             }
@@ -122,7 +122,7 @@ class AbstractCommandTestCase extends AbstractSetupWebTestCase
     {
         foreach ($images as $i) {
             foreach ($filters as $f) {
-                $this->filesystem->dumpFile(sprintf('%s/%s/%s', $this->cacheRoot, $f, $i), $content);
+                $this->filesystem->dumpFile(\sprintf('%s/%s/%s', $this->cacheRoot, $f, $i), $content);
             }
         }
     }

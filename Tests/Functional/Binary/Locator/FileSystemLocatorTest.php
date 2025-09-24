@@ -63,7 +63,7 @@ class FileSystemLocatorTest extends AbstractWebTestCase
 
     private function getFileSystemLoaderLocator(string $name): FileSystemLocator
     {
-        return $this->getPrivateProperty($this->getService(sprintf('liip_imagine.binary.loader.%s', $name)), 'locator');
+        return $this->getPrivateProperty($this->getService(\sprintf('liip_imagine.binary.loader.%s', $name)), 'locator');
     }
 
     private function assertFooBundleResourcesExist(LocatorInterface $locator): void

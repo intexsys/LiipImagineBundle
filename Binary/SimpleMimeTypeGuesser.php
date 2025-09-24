@@ -32,19 +32,16 @@ class SimpleMimeTypeGuesser implements MimeTypeGuesserInterface
         }
 
         if (interface_exists((SymfonyMimeTypeGuesserInterface::class) && $mimeTypeGuesser instanceof DeprecatedSymfonyMimeTypeGuesserInterface)) {
-            @trigger_error(sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedSymfonyMimeTypeGuesserInterface::class, __METHOD__, SymfonyMimeTypeGuesserInterface::class), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedSymfonyMimeTypeGuesserInterface::class, __METHOD__, SymfonyMimeTypeGuesserInterface::class), E_USER_DEPRECATED);
         }
 
         $this->mimeTypeGuesser = $mimeTypeGuesser;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function guess($binary)
     {
         if (false === $tmpFile = tempnam(sys_get_temp_dir(), 'liip-imagine-bundle')) {
-            throw new \RuntimeException(sprintf('Temp file can not be created in "%s".', sys_get_temp_dir()));
+            throw new \RuntimeException(\sprintf('Temp file can not be created in "%s".', sys_get_temp_dir()));
         }
 
         try {

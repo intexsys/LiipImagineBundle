@@ -26,6 +26,7 @@ class ImagineControllerTest extends AbstractTest
 {
     /**
      * @group legacy
+     *
      * @expectedDeprecation Instantiating "%s" without a forth argument of type "%s" is deprecated since 2.2.0 and will be required in 3.0.
      */
     public function testDeprecatedConstruction(): void
@@ -104,13 +105,13 @@ class ImagineControllerTest extends AbstractTest
             ->expects($expectation ? $this->atLeastOnce() : $this->never())
             ->method('getUrlOfFilteredImage')
             ->with($path, $filter, null)
-            ->willReturn(sprintf('/resolved/image%s', $path));
+            ->willReturn(\sprintf('/resolved/image%s', $path));
 
         $filterService
             ->expects($expectation ? $this->once() : $this->never())
             ->method('getUrlOfFilteredImageWithRuntimeFilters')
             ->with($path, $filter, [], null)
-            ->willReturn(sprintf('/resolved/image%s', $path));
+            ->willReturn(\sprintf('/resolved/image%s', $path));
 
         $signer = $this->createSignerInterfaceMock();
         $signer

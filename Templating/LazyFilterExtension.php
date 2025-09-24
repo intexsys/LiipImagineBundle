@@ -17,9 +17,9 @@ use Twig\TwigFilter;
 final class LazyFilterExtension extends AbstractExtension
 {
     /**
-     * {@inheritdoc}
+     * @return TwigFilter[]
      */
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('imagine_filter', [LazyFilterRuntime::class, 'filter']),
@@ -27,9 +27,6 @@ final class LazyFilterExtension extends AbstractExtension
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'liip_imagine_lazy';

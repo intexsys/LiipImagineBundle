@@ -17,21 +17,16 @@ use Liip\ImagineBundle\Factory\Config\FilterFactoryInterface;
 
 /**
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class RotateFactory implements FilterFactoryInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return Rotate::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $options): FilterInterface
     {
         $angle = isset($options['angle']) ? (int) $options['angle'] : 0;

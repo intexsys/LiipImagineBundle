@@ -34,7 +34,7 @@ abstract class AbstractPostProcessor implements PostProcessorInterface
      */
     private $filesystem;
 
-    public function __construct(string $executablePath, string $temporaryRootPath = null)
+    public function __construct(string $executablePath, ?string $temporaryRootPath = null)
     {
         $this->executablePath = $executablePath;
         $this->temporaryRootPath = $temporaryRootPath;
@@ -79,7 +79,7 @@ abstract class AbstractPostProcessor implements PostProcessorInterface
         return \in_array($binary->getMimeType(), $types, true);
     }
 
-    protected function writeTemporaryFile(BinaryInterface $binary, array $options = [], string $prefix = null): string
+    protected function writeTemporaryFile(BinaryInterface $binary, array $options = [], ?string $prefix = null): string
     {
         $temporary = $this->acquireTemporaryFilePath($options, $prefix);
 
@@ -92,7 +92,7 @@ abstract class AbstractPostProcessor implements PostProcessorInterface
         return $temporary;
     }
 
-    protected function acquireTemporaryFilePath(array $options, string $prefix = null): string
+    protected function acquireTemporaryFilePath(array $options, ?string $prefix = null): string
     {
         $root = $options['temp_dir'] ?? $this->temporaryRootPath ?: sys_get_temp_dir();
 
@@ -105,7 +105,7 @@ abstract class AbstractPostProcessor implements PostProcessorInterface
         }
 
         if (false === $file = @tempnam($root, $prefix ?: 'post-processor')) {
-            throw new \RuntimeException(sprintf('Temporary file cannot be created in "%s"', $root));
+            throw new \RuntimeException(\sprintf('Temporary file cannot be created in "%s"', $root));
         }
 
         return $file;
@@ -132,7 +132,7 @@ abstract class AbstractPostProcessor implements PostProcessorInterface
 
     protected function triggerSetterMethodDeprecation(string $method): void
     {
-        @trigger_error(sprintf('The %s() method was deprecated in 2.2 and will be removed in 3.0. You must '
+        @trigger_error(\sprintf('The %s() method was deprecated in 2.2 and will be removed in 3.0. You must '
             .'setup the class state via its __construct() method. You can still pass filter-specific options to the '.
             'process() method to overwrite behavior.', $method), E_USER_DEPRECATED);
     }

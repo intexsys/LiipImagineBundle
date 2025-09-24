@@ -78,7 +78,7 @@ class AbstractPostProcessorTest extends AbstractPostProcessorTestCase
             $data[] = [file_get_contents($f), 'application/x-php', 'php', 'foo-context', []];
             $data[] = [file_get_contents($f), 'application/x-php', 'php', 'bar-context', ['temp_dir' => null]];
             $data[] = [file_get_contents($f), 'application/x-php', 'php', 'bar-context', ['temp_dir' => sys_get_temp_dir()]];
-            $data[] = [file_get_contents($f), 'application/x-php', 'php', 'baz-context', ['temp_dir' => sprintf('%s/foo/bar/baz', sys_get_temp_dir())]];
+            $data[] = [file_get_contents($f), 'application/x-php', 'php', 'baz-context', ['temp_dir' => \sprintf('%s/foo/bar/baz', sys_get_temp_dir())]];
         }
 
         return $data;
@@ -100,15 +100,15 @@ class AbstractPostProcessorTest extends AbstractPostProcessorTestCase
         @unlink($base);
         @unlink($file);
 
-        if (is_dir($dir = sprintf('%s/foo/bar/baz', sys_get_temp_dir()))) {
+        if (is_dir($dir = \sprintf('%s/foo/bar/baz', sys_get_temp_dir()))) {
             @rmdir($dir);
         }
 
-        if (is_dir($dir = sprintf('%s/foo/bar', sys_get_temp_dir()))) {
+        if (is_dir($dir = \sprintf('%s/foo/bar', sys_get_temp_dir()))) {
             @rmdir($dir);
         }
 
-        if (is_dir($dir = sprintf('%s/foo', sys_get_temp_dir()))) {
+        if (is_dir($dir = \sprintf('%s/foo', sys_get_temp_dir()))) {
             @rmdir($dir);
         }
     }

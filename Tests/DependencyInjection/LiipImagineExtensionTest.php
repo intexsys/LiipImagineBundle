@@ -30,7 +30,7 @@ use Symfony\Component\Yaml\Parser;
 class LiipImagineExtensionTest extends AbstractTest
 {
     /**
-     * @var \Symfony\Component\DependencyInjection\ContainerBuilder
+     * @var ContainerBuilder
      */
     protected $containerBuilder;
 
@@ -167,6 +167,7 @@ class LiipImagineExtensionTest extends AbstractTest
 
     /**
      * @group legacy
+     *
      * @expectedDeprecation Symfony templating integration has been deprecated since LiipImagineBundle 2.2 and will be removed in 3.0. Use Twig and use "false" as "liip_imagine.templating" value instead.
      */
     public function testHelperIsRegisteredWhenTemplatingIsEnabled(): void
@@ -303,22 +304,22 @@ EOF;
 
     private function assertAlias(string $value, string $key): void
     {
-        $this->assertSame($value, (string) $this->containerBuilder->getAlias($key), sprintf('%s alias is correct', $key));
+        $this->assertSame($value, (string) $this->containerBuilder->getAlias($key), \sprintf('%s alias is correct', $key));
     }
 
     private function assertParameter(string $value, string $key): void
     {
-        $this->assertSame($value, $this->containerBuilder->getParameter($key), sprintf('%s parameter is correct', $key));
+        $this->assertSame($value, $this->containerBuilder->getParameter($key), \sprintf('%s parameter is correct', $key));
     }
 
     private function assertHasDefinition(string $id): void
     {
-        $this->assertTrue(($this->containerBuilder->hasDefinition($id) ?: $this->containerBuilder->hasAlias($id)));
+        $this->assertTrue($this->containerBuilder->hasDefinition($id) ?: $this->containerBuilder->hasAlias($id));
     }
 
     private function assertHasNotDefinition(string $id): void
     {
-        $this->assertFalse(($this->containerBuilder->hasDefinition($id) || $this->containerBuilder->hasAlias($id)));
+        $this->assertFalse($this->containerBuilder->hasDefinition($id) || $this->containerBuilder->hasAlias($id));
     }
 
     private function assertDICConstructorArguments(Definition $definition, array $arguments): void
@@ -328,7 +329,7 @@ EOF;
         };
 
         $implodeArrayElements = function (array $a): string {
-            return sprintf('[%s]:%d', implode(',', $a), \count($a));
+            return \sprintf('[%s]:%d', implode(',', $a), \count($a));
         };
 
         $expectedArguments = $castArrayElementsToString($arguments);

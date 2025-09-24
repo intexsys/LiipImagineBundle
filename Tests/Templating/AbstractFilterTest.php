@@ -15,9 +15,17 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Templating\FilterExtension;
 use Liip\ImagineBundle\Templating\Helper\FilterHelper;
 use Liip\ImagineBundle\Tests\AbstractTest;
+use Symfony\Component\Templating\Helper\Helper;
 
 abstract class AbstractFilterTest extends AbstractTest
 {
+    public static function setUpBeforeClass(): void
+    {
+        if (!class_exists(Helper::class)) {
+            static::markTestSkipped('Test requires deprecated symfony/templating component');
+        }
+    }
+
     public function testCanBeConstructed(): void
     {
         $this->createTemplatingMock();
@@ -96,5 +104,5 @@ abstract class AbstractFilterTest extends AbstractTest
     /**
      * @return FilterExtension|FilterHelper
      */
-    abstract protected function createTemplatingMock(CacheManager $manager = null);
+    abstract protected function createTemplatingMock(?CacheManager $manager = null);
 }

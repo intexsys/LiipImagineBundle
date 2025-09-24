@@ -45,6 +45,6 @@ class FileSystemLoaderTest extends AbstractWebTestCase
      */
     private function getLoader(string $name)
     {
-        return $this->getService(sprintf('liip_imagine.binary.loader.%s', $name));
+        return $this->getService(\sprintf('liip_imagine.binary.loader.%s', $name));
     }
 }

@@ -17,21 +17,16 @@ use Liip\ImagineBundle\Factory\Config\FilterFactoryInterface;
 
 /**
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class WatermarkFactory implements FilterFactoryInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return Watermark::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $options): FilterInterface
     {
         $size = $options['size'] ?? null;

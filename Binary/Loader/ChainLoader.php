@@ -30,9 +30,6 @@ class ChainLoader implements LoaderInterface
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function find($path)
     {
         $exceptions = [];
@@ -54,11 +51,11 @@ class ChainLoader implements LoaderInterface
     private static function getLoaderExceptionMessage(string $path, array $exceptions, array $loaders): string
     {
         array_walk($loaders, function (LoaderInterface &$loader, string $name): void {
-            $loader = sprintf('%s=[%s]', (new \ReflectionObject($loader))->getShortName(), $name);
+            $loader = \sprintf('%s=[%s]', (new \ReflectionObject($loader))->getShortName(), $name);
         });
 
         array_walk($exceptions, function (LoaderInterface &$loader, string $message): void {
-            $loader = sprintf('%s=[%s]', (new \ReflectionObject($loader))->getShortName(), $message);
+            $loader = \sprintf('%s=[%s]', (new \ReflectionObject($loader))->getShortName(), $message);
         });
 
         return vsprintf('Source image not resolvable "%s" using "%s" %d loaders (internal exceptions: %s).', [

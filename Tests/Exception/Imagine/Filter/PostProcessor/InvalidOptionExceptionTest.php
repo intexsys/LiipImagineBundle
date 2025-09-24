@@ -38,7 +38,7 @@ class InvalidOptionExceptionTest extends TestCase
     {
         $exception = new InvalidOptionException($message, $options);
 
-        $this->assertStringContainsString(sprintf('(%s)', $message), $exception->getMessage());
-        $this->assertStringContainsString(sprintf('[%s]', $optionsText), $exception->getMessage());
+        $this->assertStringContainsString(\sprintf('(%s)', $message), $exception->getMessage());
+        $this->assertStringContainsString(\sprintf('[%s]', $optionsText), $exception->getMessage());
     }
 }

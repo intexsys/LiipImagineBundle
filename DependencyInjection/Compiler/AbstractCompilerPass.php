@@ -21,7 +21,7 @@ abstract class AbstractCompilerPass implements CompilerPassInterface
      */
     protected function log(ContainerBuilder $container, string $message, ...$replacements): void
     {
-        $container->log($this, sprintf(
+        $container->log($this, \sprintf(
             '[liip/imagine-bundle] %s', empty($replacements) ? $message : vsprintf($message, $replacements)
         ));
     }

@@ -37,9 +37,6 @@ abstract class AbstractDoctrineLoader implements LoaderInterface
         $this->class = $class;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function find($path)
     {
         $image = $this->manager->find($this->class, $this->mapPathToId($path));
@@ -53,7 +50,7 @@ abstract class AbstractDoctrineLoader implements LoaderInterface
         }
 
         if (!$image) {
-            throw new NotLoadableException(sprintf('Source image was not found with id "%s"', $path));
+            throw new NotLoadableException(\sprintf('Source image was not found with id "%s"', $path));
         }
 
         return stream_get_contents($this->getStreamFromImage($image));

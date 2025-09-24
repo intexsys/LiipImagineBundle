@@ -44,7 +44,7 @@ class FileSystemLocator implements LocatorInterface
             return $this->sanitizeAbsolutePath($absolute);
         }
 
-        throw new NotLoadableException(sprintf('Source image not resolvable "%s" in root path(s) "%s"', $path, implode(':', $this->roots)));
+        throw new NotLoadableException(\sprintf('Source image not resolvable "%s" in root path(s) "%s"', $path, implode(':', $this->roots)));
     }
 
     protected function generateAbsolutePath(string $root, string $path): ?string
@@ -77,7 +77,7 @@ class FileSystemLocator implements LocatorInterface
             return $this->generateAbsolutePath($this->roots[$match['name']], $match['path']);
         }
 
-        throw new NotLoadableException(sprintf('Invalid root placeholder "@%s" for path "%s"', $match['name'], $match['path']));
+        throw new NotLoadableException(\sprintf('Invalid root placeholder "@%s" for path "%s"', $match['name'], $match['path']));
     }
 
     /**
@@ -93,7 +93,7 @@ class FileSystemLocator implements LocatorInterface
             return null;
         }
 
-        throw new InvalidArgumentException(sprintf('Root image path not resolvable "%s"', $path));
+        throw new InvalidArgumentException(\sprintf('Root image path not resolvable "%s"', $path));
     }
 
     /**
@@ -106,11 +106,11 @@ class FileSystemLocator implements LocatorInterface
         });
 
         if (0 === \count($roots)) {
-            throw new NotLoadableException(sprintf('Source image invalid "%s" as it is outside of the defined root path(s) "%s"', $path, implode(':', $this->roots)));
+            throw new NotLoadableException(\sprintf('Source image invalid "%s" as it is outside of the defined root path(s) "%s"', $path, implode(':', $this->roots)));
         }
 
         if (!is_readable($path)) {
-            throw new NotLoadableException(sprintf('Source image invalid "%s" as it is not readable', $path));
+            throw new NotLoadableException(\sprintf('Source image invalid "%s" as it is not readable', $path));
         }
 
         return $path;

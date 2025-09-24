@@ -16,11 +16,12 @@ use Liip\ImagineBundle\Exception\InvalidArgumentException;
 
 /**
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class SizeFactory
 {
-    public function create(int $width = null, int $height = null): Size
+    public function create(?int $width = null, ?int $height = null): Size
     {
         return new Size($width, $height);
     }
@@ -32,7 +33,7 @@ final class SizeFactory
         }
 
         if (!\is_array($options[$propertyName])) {
-            throw new InvalidArgumentException(sprintf('Invalid value for %s provided, array expected.', $propertyName));
+            throw new InvalidArgumentException(\sprintf('Invalid value for %s provided, array expected.', $propertyName));
         }
 
         $width = $options[$propertyName][0] ?? null;

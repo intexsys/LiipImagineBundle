@@ -102,7 +102,7 @@ class FlysystemV2Resolver implements ResolverInterface
      */
     public function resolve($path, $filter)
     {
-        return sprintf(
+        return \sprintf(
             '%s/%s',
             rtrim($this->webRoot, '/'),
             ltrim($this->getFileUrl($path, $filter), '/')
@@ -153,17 +153,11 @@ class FlysystemV2Resolver implements ResolverInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getFilePath($path, $filter)
     {
         return $this->getFileUrl($path, $filter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     protected function getFileUrl($path, $filter)
     {
         // crude way of sanitizing URL scheme ("protocol") part

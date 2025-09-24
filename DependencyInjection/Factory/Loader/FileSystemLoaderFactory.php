@@ -19,12 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class FileSystemLoaderFactory extends AbstractLoaderFactory
 {
-    /**
-     * {@inheritdoc}
-     */
     public function create(ContainerBuilder $container, $loaderName, array $config)
     {
-        $locatorDefinition = new ChildDefinition(sprintf('liip_imagine.binary.locator.%s', $config['locator']));
+        $locatorDefinition = new ChildDefinition(\sprintf('liip_imagine.binary.locator.%s', $config['locator']));
         $locatorDefinition->replaceArgument(0, $this->resolveDataRoots($config['data_root'], $config['bundle_resources'], $container));
         $locatorDefinition->replaceArgument(1, $config['allow_unresolvable_data_roots']);
 
@@ -41,17 +38,11 @@ class FileSystemLoaderFactory extends AbstractLoaderFactory
         return $this->setTaggedLoaderDefinition($loaderName, $definition, $container);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'filesystem';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addConfiguration(ArrayNodeDefinition $builder)
     {
         $builder
@@ -165,7 +156,7 @@ class FileSystemLoaderFactory extends AbstractLoaderFactory
             try {
                 $r = new \ReflectionClass($c);
             } catch (\ReflectionException $exception) {
-                throw new InvalidArgumentException(sprintf('Unable to resolve bundle "%s" while auto-registering bundle resource paths.', $c), null, $exception);
+                throw new InvalidArgumentException(\sprintf('Unable to resolve bundle "%s" while auto-registering bundle resource paths.', $c), $exception->getCode(), $exception);
             }
 
             $paths[$r->getShortName()] = \dirname($r->getFileName());

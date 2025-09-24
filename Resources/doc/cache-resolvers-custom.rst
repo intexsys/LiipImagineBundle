@@ -27,7 +27,7 @@ service and tag it with ``liip_imagine.cache.resolver``:
 
         services:
             imagine.cache.resolver.my_custom:
-                class: AppBundle\Imagine\Cache\Resolver\MyCustomResolver
+                class: App\Service\MyCustomResolver
                 arguments:
                     - "@filesystem"
                     - "@router"
@@ -38,7 +38,7 @@ service and tag it with ``liip_imagine.cache.resolver``:
 
         <!-- app/config/services.xml -->
 
-        <service id="imagine.cache.resolver.my_custom" class="AppBundle\Imagine\Cache\Resolver\MyCustomResolver">
+        <service id="imagine.cache.resolver.my_custom" class="App\Service\MyCustomResolver">
             <tag name="liip_imagine.cache.resolver" resolver="my_custom_cache" />
             <argument type="service" id="filesystem" />
             <argument type="service" id="router" />
@@ -68,4 +68,4 @@ filter set:
                 cache: my_custom_cache
 
 
-.. _`Symfony Service Container documentation`: http://symfony.com/doc/current/book/service_container.html
+.. _`Symfony Service Container documentation`: https://symfony.com/doc/current/service_container.html

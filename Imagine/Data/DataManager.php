@@ -70,7 +70,7 @@ class DataManager
         }
 
         if (interface_exists(MimeTypesInterface::class) && $extensionGuesser instanceof DeprecatedExtensionGuesserInterface) {
-            @trigger_error(sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedExtensionGuesserInterface::class, __METHOD__, MimeTypesInterface::class), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedExtensionGuesserInterface::class, __METHOD__, MimeTypesInterface::class), E_USER_DEPRECATED);
         }
 
         $this->mimeTypeGuesser = $mimeTypeGuesser;
@@ -106,7 +106,7 @@ class DataManager
         $loaderName = empty($config['data_loader']) ? $this->defaultLoader : $config['data_loader'];
 
         if (!isset($this->loaders[$loaderName])) {
-            throw new \InvalidArgumentException(sprintf('Could not find data loader "%s" for "%s" filter type', $loaderName, $filter));
+            throw new \InvalidArgumentException(\sprintf('Could not find data loader "%s" for "%s" filter type', $loaderName, $filter));
         }
 
         return $this->loaders[$loaderName];
@@ -139,11 +139,11 @@ class DataManager
         }
 
         if (null === $binary->getMimeType()) {
-            throw new LogicException(sprintf('The mime type of image %s was not guessed.', $path));
+            throw new LogicException(\sprintf('The mime type of image %s was not guessed.', $path));
         }
 
         if (0 !== mb_strpos($binary->getMimeType(), 'image/') && 'application/pdf' !== $binary->getMimeType()) {
-            throw new LogicException(sprintf('The mime type of file %s must be image/xxx or application/pdf, got %s.', $path, $binary->getMimeType()));
+            throw new LogicException(\sprintf('The mime type of file %s must be image/xxx or application/pdf, got %s.', $path, $binary->getMimeType()));
         }
 
         return $binary;

@@ -16,10 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class AbstractWebTestCase extends WebTestCase
 {
-    /**
-     * @return string
-     */
-    public static function getKernelClass()
+    public static function getKernelClass(): string
     {
         require_once __DIR__.'/app/AppKernel.php';
 
@@ -38,9 +35,6 @@ abstract class AbstractWebTestCase extends WebTestCase
         return static::$kernel->getContainer()->get($name);
     }
 
-    /**
-     * @return mixed
-     */
     protected function getParameter(string $name)
     {
         if (property_exists($this, 'container')) {
@@ -52,8 +46,6 @@ abstract class AbstractWebTestCase extends WebTestCase
 
     /**
      * @param object $object
-     *
-     * @return mixed
      */
     protected function getPrivateProperty($object, string $name)
     {

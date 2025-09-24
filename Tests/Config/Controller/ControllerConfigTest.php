@@ -48,7 +48,7 @@ class ControllerConfigTest extends AbstractTest
     public function testInvalidRedirectResponseCode(int $redirectResponseCode): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf(
+        $this->expectExceptionMessage(\sprintf(
             'Invalid redirect response code "%s" (must be 201, 301, 302, 303, 307, or 308).', $redirectResponseCode
         ));
         $this->assertSame($redirectResponseCode, (new ControllerConfig($redirectResponseCode))->getRedirectResponseCode());

@@ -55,8 +55,8 @@ class FilterService
         DataManager $dataManager,
         FilterManager $filterManager,
         CacheManager $cacheManager,
-        bool $webpGenerate,
-        array $webpOptions,
+        bool $webpGenerate = false,
+        array $webpOptions = [],
         ?LoggerInterface $logger = null
     ) {
         $this->dataManager = $dataManager;
@@ -251,7 +251,7 @@ class FilterService
         try {
             return $this->filterManager->applyFilter($binary, $filter, $filterPathContainer->getOptions());
         } catch (NonExistingFilterException $e) {
-            $this->logger->debug(sprintf(
+            $this->logger->debug(\sprintf(
                 'Could not locate filter "%s" for path "%s". Message was "%s"',
                 $filter,
                 $filterPathContainer->getSource(),

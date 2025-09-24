@@ -20,11 +20,11 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class NonFunctionalFilterExceptionPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $canFiltersStillFunction = $container->hasParameter('kernel.root_dir');
         $throwWarning = function (string $filterName) use ($canFiltersStillFunction) {
-            $message = sprintf(
+            $message = \sprintf(
                 'The "%s" filter %s in Symfony 5.0. Please use "%s_image" and adapt the "image" option to be relative to the "%%kernel.project_dir%%" instead of "%%kernel.root_dir%%".',
                 $filterName,
                 $canFiltersStillFunction ? 'is deprecated and will not work' : 'no longer works',

@@ -12,6 +12,7 @@
 namespace Liip\ImagineBundle\Binary\Loader;
 
 use Liip\ImagineBundle\Binary\Locator\LocatorInterface;
+use Liip\ImagineBundle\Exception\Binary\Loader\NotLoadableException;
 use Liip\ImagineBundle\Exception\InvalidArgumentException;
 use Liip\ImagineBundle\Model\FileBinary;
 use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesserInterface as DeprecatedExtensionGuesserInterface;
@@ -54,11 +55,11 @@ class FileSystemLoader implements LoaderInterface
         }
 
         if (interface_exists(MimeTypeGuesserInterface::class) && $mimeGuesser instanceof DeprecatedMimeTypeGuesserInterface) {
-            @trigger_error(sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedMimeTypeGuesserInterface::class, __METHOD__, MimeTypeGuesserInterface::class), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedMimeTypeGuesserInterface::class, __METHOD__, MimeTypeGuesserInterface::class), E_USER_DEPRECATED);
         }
 
         if (interface_exists(MimeTypesInterface::class) && $extensionGuesser instanceof DeprecatedExtensionGuesserInterface) {
-            @trigger_error(sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedExtensionGuesserInterface::class, __METHOD__, MimeTypesInterface::class), E_USER_DEPRECATED);
+            @trigger_error(\sprintf('Passing a %s to "%s()" is deprecated since Symfony 4.3, pass a "%s" instead.', DeprecatedExtensionGuesserInterface::class, __METHOD__, MimeTypesInterface::class), E_USER_DEPRECATED);
         }
 
         $this->mimeTypeGuesser = $mimeGuesser;
@@ -66,12 +67,14 @@ class FileSystemLoader implements LoaderInterface
         $this->locator = $locator;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function find($path)
     {
         $path = $this->locator->locate($path);
+
+        if (false === is_file($path)) {
+            throw new NotLoadableException(\sprintf('Source image: "%s" is no file.', $path));
+        }
+
         $mimeType = $this->mimeTypeGuesser instanceof DeprecatedMimeTypeGuesserInterface ? $this->mimeTypeGuesser->guess($path) : $this->mimeTypeGuesser->guessMimeType($path);
         $extension = $this->getExtension($mimeType);
 

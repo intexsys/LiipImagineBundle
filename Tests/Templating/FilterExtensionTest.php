@@ -18,6 +18,7 @@ use Twig\Extension\AbstractExtension;
 /**
  * @covers \Liip\ImagineBundle\Templating\FilterTrait
  * @covers \Liip\ImagineBundle\Templating\FilterExtension
+ *
  * @group legacy
  */
 class FilterExtensionTest extends AbstractFilterTest
@@ -32,7 +33,7 @@ class FilterExtensionTest extends AbstractFilterTest
         $this->assertInstanceOf(AbstractExtension::class, $this->createTemplatingMock());
     }
 
-    protected function createTemplatingMock(CacheManager $manager = null): FilterExtension
+    protected function createTemplatingMock(?CacheManager $manager = null): FilterExtension
     {
         if (!class_exists(AbstractExtension::class)) {
             $this->markTestSkipped('Requires the twig/twig package.');

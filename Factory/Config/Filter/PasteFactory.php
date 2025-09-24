@@ -18,6 +18,7 @@ use Liip\ImagineBundle\Factory\Config\FilterFactoryInterface;
 
 /**
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class PasteFactory implements FilterFactoryInterface
@@ -32,17 +33,11 @@ final class PasteFactory implements FilterFactoryInterface
         $this->pointFactory = $pointFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return Paste::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $options): FilterInterface
     {
         return new Paste($this->pointFactory->createFromOptions($options, 'start'));

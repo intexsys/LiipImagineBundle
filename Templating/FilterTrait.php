@@ -65,7 +65,7 @@ trait FilterTrait
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getName()
     {

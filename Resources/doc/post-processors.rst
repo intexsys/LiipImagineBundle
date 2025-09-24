@@ -70,11 +70,11 @@ for your custom post-processor.
 
 .. code-block:: php
 
-    namespace AppBundle\Imagine\Filter\PostProcessor;
+    namespace App\Service;
 
     use Liip\ImagineBundle\Binary\BinaryInterface;
     use Liip\ImagineBundle\Model\Binary;
-    use Liip\ImagineBundle\Imagine\Filter\PostProcessor\PostProcessorInterface;
+    use Liip\ImagineBundle\Imagine\Filter\PostProcessorInterface;
     use Symfony\Component\Process\Exception\ProcessFailedException;
     use Symfony\Component\Process\ProcessBuilder;
 
@@ -131,10 +131,20 @@ for your custom post-processor.
         }
     }
 
-You need to `configure a service`_ with your custom post-processor and tag it
+Register it: automatically
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, your post-processor will be automatically registered as it implements the ``PostProcessorInterface``.
+
+You will be able to reference and use your custom post-processor in your configuration by using its Fully Qualified Class Name.
+
+Register it: manually
+^^^^^^^^^^^^^^^^^^^^^
+
+If you want to give it a different name you need to `configure a service`_ with your custom post-processor and tag it
 with ``liip_imagine.filter.post_processor``.
 
-To register ``AppBundle\Imagine\Filter\PostProcessor\MyCustomPostProcessor`` with the name
+To register ``App\Service\MyCustomPostProcessor`` with the name
 ``my_custom_post_processor``, you would use the following configuration.
 
 .. configuration-block::
@@ -144,7 +154,7 @@ To register ``AppBundle\Imagine\Filter\PostProcessor\MyCustomPostProcessor`` wit
         # app/config/services.yml
 
         app.post_processor.my_custom_post_processor:
-            class: AppBundle\Imagine\Filter\PostProcessor\MyCustomPostProcessor
+            class: App\Service\MyCustomPostProcessor
             tags:
                 - { name: 'liip_imagine.filter.post_processor', post_processor: 'my_custom_post_processor' }
 
@@ -152,7 +162,7 @@ To register ``AppBundle\Imagine\Filter\PostProcessor\MyCustomPostProcessor`` wit
 
         <!-- app/config/services.xml -->
 
-        <service id="app.post_processor.my_custom_post_processor" class="AppBundle\Imagine\Filter\PostProcessor\MyCustomPostProcessor">
+        <service id="app.post_processor.my_custom_post_processor" class="App\Service\MyCustomPostProcessor">
             <tag name="liip_imagine.filter.post_processor" post_processor="my_custom_post_processor" />
         </service>
 
@@ -171,4 +181,4 @@ assigned via the ``post_processor`` tag attribute above (in this example,
                     my_custom_post_processor: { }
 
 
-.. _`configure a service`: http://symfony.com/doc/current/book/service_container.html
+.. _`configure a service`: https://symfony.com/doc/current/service_container.html

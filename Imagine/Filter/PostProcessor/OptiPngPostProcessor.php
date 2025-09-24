@@ -88,7 +88,7 @@ class OptiPngPostProcessor extends AbstractPostProcessor
                 throw new InvalidOptionException('the "level" option must be an int between 0 and 7', $options);
             }
 
-            $arguments[] = sprintf('-o%d', $level);
+            $arguments[] = \sprintf('-o%d', $level);
         }
 
         if (isset($options['strip_all'])) {

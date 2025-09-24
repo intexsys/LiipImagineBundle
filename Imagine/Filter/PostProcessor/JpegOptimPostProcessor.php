@@ -160,7 +160,7 @@ class JpegOptimPostProcessor extends AbstractPostProcessor
                 throw new InvalidOptionException('the "quality" option must be an int between 0 and 100', $options);
             }
 
-            $arguments[] = sprintf('--max=%d', $quality);
+            $arguments[] = \sprintf('--max=%d', $quality);
         }
 
         if ($options['progressive'] ?? $this->progressive) {

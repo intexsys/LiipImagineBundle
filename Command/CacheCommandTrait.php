@@ -98,7 +98,7 @@ trait CacheCommandTrait
     {
         if (!$this->outputMachineReadable) {
             $wordPluralizer = function (int $count, string $singular) {
-                return 1 === $count ? $singular : sprintf('%ss', $singular);
+                return 1 === $count ? $singular : \sprintf('%ss', $singular);
             };
 
             $imagePathsSize = \count($images);
@@ -106,27 +106,27 @@ trait CacheCommandTrait
             $allActionsSize = 0 === $imagePathsSize ? $filterSetsSize : ($filterSetsSize * $imagePathsSize) - $this->failures;
             $allActionsWord = $wordPluralizer($allActionsSize, $singularAction);
 
-            $rootTextOutput = sprintf('Completed %d %s', $allActionsSize, $allActionsWord);
+            $rootTextOutput = \sprintf('Completed %d %s', $allActionsSize, $allActionsWord);
 
             $detailTextFormat = '%d %s';
 
             $detailTextsOutput = [];
 
             if (0 !== $imagePathsSize) {
-                $detailTextsOutput[] = sprintf($detailTextFormat, $imagePathsSize, $wordPluralizer($imagePathsSize, 'image'));
+                $detailTextsOutput[] = \sprintf($detailTextFormat, $imagePathsSize, $wordPluralizer($imagePathsSize, 'image'));
             }
 
             if (0 !== $filterSetsSize) {
-                $detailTextsOutput[] = sprintf($detailTextFormat, $filterSetsSize, $wordPluralizer($filterSetsSize, 'filter'));
+                $detailTextsOutput[] = \sprintf($detailTextFormat, $filterSetsSize, $wordPluralizer($filterSetsSize, 'filter'));
             }
 
             if (!empty($detailTextsOutput)) {
-                $rootTextOutput = sprintf('%s (%s)', $rootTextOutput, implode(', ', $detailTextsOutput));
+                $rootTextOutput = \sprintf('%s (%s)', $rootTextOutput, implode(', ', $detailTextsOutput));
             }
 
             if ($this->failures) {
-                $this->io->critBlock(sprintf('%s %%s', $rootTextOutput), [
-                    sprintf('[encountered %d failures]', $this->failures),
+                $this->io->critBlock(\sprintf('%s %%s', $rootTextOutput), [
+                    \sprintf('[encountered %d failures]', $this->failures),
                 ]);
             } else {
                 $this->io->okayBlock($rootTextOutput);

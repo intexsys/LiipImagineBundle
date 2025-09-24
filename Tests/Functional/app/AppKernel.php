@@ -12,14 +12,12 @@
 namespace Liip\ImagineBundle\Tests\Functional\app;
 
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    /**
-     * @return array
-     */
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $bundles = [
             new \Symfony\Bundle\FrameworkBundle\FrameworkBundle(),
@@ -31,23 +29,17 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
-    /**
-     * @return string
-     */
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return sys_get_temp_dir().'/liip_imagine_test/cache';
     }
 
-    /**
-     * @return string
-     */
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return sys_get_temp_dir().'/liip_imagine_test/cache/logs';
     }
 
-    public function getProjectDir()
+    public function getProjectDir(): string
     {
         return __DIR__;
     }
@@ -55,13 +47,23 @@ class AppKernel extends Kernel
     /**
      * @throws \Exception
      */
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
-        if (version_compare(self::VERSION, '5.3', '>=')) {
-            $loader->load(__DIR__.'/config/symfony_5-3.yaml');
-        } else {
-            $loader->load(__DIR__.'/config/symfony_legacy.yaml');
-        }
-        $loader->load(__DIR__.'/config/config.yml');
+        $loader->load(function (ContainerBuilder $container) use ($loader) {
+            if (version_compare(self::VERSION, '5.3', '>=')) {
+                $loader->load($this->getProjectDir().'/config/symfony_5-3.yaml');
+            } else {
+                $loader->load($this->getProjectDir().'/config/symfony_legacy.yaml');
+            }
+
+            $loader->load($this->getProjectDir().'/config/config.yml');
+
+            $container
+                ->setAlias('test.liip_imagine.service.filter', 'liip_imagine.service.filter')
+                ->setPublic(true);
+            $container
+                ->setAlias('test.liip_imagine.filter.manager', 'liip_imagine.filter.manager')
+                ->setPublic(true);
+        });
     }
 }

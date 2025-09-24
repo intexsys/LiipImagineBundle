@@ -16,10 +16,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class FiltersCompilerPass extends AbstractCompilerPass
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $tags = $container->findTaggedServiceIds('liip_imagine.filter.loader');
 
@@ -27,7 +24,7 @@ class FiltersCompilerPass extends AbstractCompilerPass
             $manager = $container->getDefinition('liip_imagine.filter.manager');
 
             foreach ($tags as $id => $tag) {
-                $manager->addMethodCall('addLoader', [$tag[0]['loader'], new Reference($id)]);
+                $manager->addMethodCall('addLoader', [$tag[0]['loader'] ?? $id, new Reference($id)]);
                 $this->log($container, 'Registered filter loader: %s', $id);
             }
         }

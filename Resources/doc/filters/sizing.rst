@@ -53,6 +53,10 @@ Thumbnail Options
     Sets the generated thumbnail size as an integer array containing the dimensions
     as width and height values.
 
+**allow_upscale:** ``bool``
+    Toggles allowing image up-scaling when the image is smaller than the desired
+    thumbnail size.
+
 .. _filter-fixed:
 
 Fixed size
@@ -397,5 +401,5 @@ Up Scale Options
     by multiplying all image sides by this value.
 
 
-.. _`BoxInterface`: http://imagine.readthedocs.io/en/latest/usage/coordinates.html#boxinterface
-.. _`Imagine Library`: http://imagine.readthedocs.io/en/latest/
+.. _`BoxInterface`: https://imagine.readthedocs.io/en/latest/usage/coordinates.html#boxinterface
+.. _`Imagine Library`: https://imagine.readthedocs.io/en/latest/

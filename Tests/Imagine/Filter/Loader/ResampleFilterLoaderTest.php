@@ -31,7 +31,7 @@ class ResampleFilterLoaderTest extends AbstractTest
     public function testResample($imgPath, $resolution): void
     {
         $imgType = static::getSupportedDriver();
-        $tmpPath = sys_get_temp_dir().DIRECTORY_SEPARATOR.sprintf('liip-imagine-bundle-test-%s-%d.%s', md5($imgPath), time(), pathinfo($imgPath, PATHINFO_EXTENSION));
+        $tmpPath = sys_get_temp_dir().DIRECTORY_SEPARATOR.\sprintf('liip-imagine-bundle-test-%s-%d.%s', md5($imgPath), time(), pathinfo($imgPath, PATHINFO_EXTENSION));
         $imagine = $this->getImagineInstance($imgType);
 
         $image = $imagine->open($imgPath);
@@ -177,7 +177,7 @@ class ResampleFilterLoaderTest extends AbstractTest
         $this->createResampleFilterLoaderInstance()->load($image, ['x' => 120, 'y' => 120, 'unit' => 'ppi']);
     }
 
-    private function createResampleFilterLoaderInstance(ImagineInterface $imagine = null): ResampleFilterLoader
+    private function createResampleFilterLoaderInstance(?ImagineInterface $imagine = null): ResampleFilterLoader
     {
         return new ResampleFilterLoader($imagine ?: $this->createImagineInterfaceMock());
     }

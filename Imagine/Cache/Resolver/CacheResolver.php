@@ -43,10 +43,8 @@ class CacheResolver implements ResolverInterface
      *   A "local" prefix for this wrapper. This is useful when re-using the same resolver for multiple filters.
      * * index_key
      *   The name of the index key being used to save a list of created cache keys regarding one image and filter pairing.
-     *
-     * @param OptionsResolver $optionsResolver
      */
-    public function __construct(Cache $cache, ResolverInterface $cacheResolver, array $options = [], OptionsResolver $optionsResolver = null)
+    public function __construct(Cache $cache, ResolverInterface $cacheResolver, array $options = [], ?OptionsResolver $optionsResolver = null)
     {
         $this->cache = $cache;
         $this->resolver = $cacheResolver;
@@ -59,21 +57,15 @@ class CacheResolver implements ResolverInterface
         $this->options = $optionsResolver->resolve($options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isStored($path, $filter)
     {
         $cacheKey = $this->generateCacheKey($path, $filter);
 
         return
-            $this->cache->contains($cacheKey) ||
-            $this->resolver->isStored($path, $filter);
+            $this->cache->contains($cacheKey)
+            || $this->resolver->isStored($path, $filter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function resolve($path, $filter)
     {
         $key = $this->generateCacheKey($path, $filter);
@@ -88,17 +80,11 @@ class CacheResolver implements ResolverInterface
         return $resolved;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function store(BinaryInterface $binary, $path, $filter)
     {
         $this->resolver->store($binary, $path, $filter);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function remove(array $paths, array $filters)
     {
         $this->resolver->remove($paths, $filters);
@@ -192,6 +178,10 @@ class CacheResolver implements ResolverInterface
      */
     protected function sanitizeCacheKeyPart($cacheKeyPart)
     {
+        if (null === $cacheKeyPart) {
+            return '';
+        }
+
         return str_replace('.', '_', $cacheKeyPart);
     }
 
@@ -199,7 +189,6 @@ class CacheResolver implements ResolverInterface
      * Save the given content to the cache and update the cache index.
      *
      * @param string $cacheKey
-     * @param mixed  $content
      *
      * @return bool
      */
@@ -239,9 +228,9 @@ class CacheResolver implements ResolverInterface
         ]);
 
         $allowedTypesList = [
-          'global_prefix' => 'string',
-          'prefix' => 'string',
-          'index_key' => 'string',
+            'global_prefix' => 'string',
+            'prefix' => 'string',
+            'index_key' => 'string',
         ];
 
         foreach ($allowedTypesList as $option => $allowedTypes) {

@@ -11,20 +11,22 @@
 
 namespace Liip\ImagineBundle\DependencyInjection;
 
+use Imagine\Vips\Imagine;
 use Liip\ImagineBundle\DependencyInjection\Factory\Loader\LoaderFactoryInterface;
 use Liip\ImagineBundle\DependencyInjection\Factory\Resolver\ResolverFactoryInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Liip\ImagineBundle\Imagine\Data\DataManager;
 use Liip\ImagineBundle\Imagine\Filter\FilterManager;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Mime\MimeTypeGuesserInterface;
 use Symfony\Component\Mime\MimeTypes;
@@ -51,10 +53,7 @@ class LiipImagineExtension extends Extension implements PrependExtensionInterfac
         $this->loadersFactories[$loaderFactory->getName()] = $loaderFactory;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getConfiguration(array $config, ContainerBuilder $container)
+    public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
         return new Configuration($this->resolversFactories, $this->loadersFactories);
     }
@@ -62,7 +61,7 @@ class LiipImagineExtension extends Extension implements PrependExtensionInterfac
     /**
      * @see \Symfony\Component\DependencyInjection\Extension.ExtensionInterface::load()
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration(
             $this->getConfiguration($configs, $container),
@@ -103,13 +102,24 @@ class LiipImagineExtension extends Extension implements PrependExtensionInterfac
             $loader->load('templating.xml');
         }
 
-        $container->setParameter('liip_imagine.driver_service', 'liip_imagine.'.$config['driver']);
+        $driver = $config['driver'];
+        if ('vips' === $driver) {
+            if (!class_exists(Imagine::class)) {
+                $vipsImagineClass = Imagine::class;
+
+                throw new \RuntimeException("Unable to use 'vips' driver without '{$vipsImagineClass}' class.");
+            }
+
+            $loader->load('imagine_vips.xml');
+        }
+
+        $container->setParameter('liip_imagine.driver_service', "liip_imagine.{$driver}");
 
         $container
             ->getDefinition('liip_imagine.controller.config')
             ->replaceArgument(0, $config['controller']['redirect_response_code']);
 
-        $container->setAlias('liip_imagine', new Alias('liip_imagine.'.$config['driver']));
+        $container->setAlias('liip_imagine', new Alias("liip_imagine.{$driver}"));
         $container->setAlias(CacheManager::class, new Alias('liip_imagine.cache.manager', false));
         $container->setAlias(DataManager::class, new Alias('liip_imagine.data.manager', false));
         $container->setAlias(FilterManager::class, new Alias('liip_imagine.filter.manager', false));

@@ -21,9 +21,6 @@ class FilterFactoryCollection
      */
     private $filterFactories = [];
 
-    /**
-     * @param FilterFactoryInterface ...$filterFactories
-     */
     public function __construct(FilterFactoryInterface ...$filterFactories)
     {
         foreach ($filterFactories as $filterFactory) {
@@ -37,7 +34,7 @@ class FilterFactoryCollection
     public function getFilterFactoryByName(string $name): FilterFactoryInterface
     {
         if (!isset($this->filterFactories[$name])) {
-            throw new NotFoundException(sprintf("Filter factory with name '%s' was not found.", $name));
+            throw new NotFoundException(\sprintf("Filter factory with name '%s' was not found.", $name));
         }
 
         return $this->filterFactories[$name];

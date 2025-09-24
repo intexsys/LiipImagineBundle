@@ -16,6 +16,7 @@ use Liip\ImagineBundle\Exception\InvalidArgumentException;
 
 /**
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class PointFactory
@@ -32,7 +33,7 @@ final class PointFactory
         }
 
         if (!\is_array($options[$propertyName])) {
-            throw new InvalidArgumentException(sprintf('Invalid value for %s provided, array expected.', $propertyName));
+            throw new InvalidArgumentException(\sprintf('Invalid value for %s provided, array expected.', $propertyName));
         }
 
         $x = $options[$propertyName][0] ?? null;

@@ -52,10 +52,7 @@ abstract class AbstractFilesystemResolver implements ResolverInterface, CacheMan
         $this->filesystem = $filesystem;
     }
 
-    /**
-     * @param Request $request
-     */
-    public function setRequest(Request $request = null)
+    public function setRequest(?Request $request = null)
     {
         $this->request = $request;
     }
@@ -67,8 +64,6 @@ abstract class AbstractFilesystemResolver implements ResolverInterface, CacheMan
 
     /**
      * Set the base path to.
-     *
-     * @param $basePath
      */
     public function setBasePath($basePath)
     {
@@ -83,17 +78,11 @@ abstract class AbstractFilesystemResolver implements ResolverInterface, CacheMan
         $this->folderPermissions = $folderPermissions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isStored($path, $filter)
     {
         return file_exists($this->getFilePath($path, $filter));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function store(BinaryInterface $binary, $path, $filter)
     {
         $filePath = $this->getFilePath($path, $filter);
@@ -105,9 +94,6 @@ abstract class AbstractFilesystemResolver implements ResolverInterface, CacheMan
         file_put_contents($filePath, $binary->getContent());
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function remove(array $paths, array $filters)
     {
         if (empty($paths) && empty($filters)) {
@@ -166,7 +152,7 @@ abstract class AbstractFilesystemResolver implements ResolverInterface, CacheMan
                 $this->filesystem->mkdir($dir);
                 $this->filesystem->chmod($dir, $this->folderPermissions);
             } catch (IOException $e) {
-                throw new \RuntimeException(sprintf('Could not create directory %s', $dir), 0, $e);
+                throw new \RuntimeException(\sprintf('Could not create directory %s', $dir), 0, $e);
             }
         }
     }

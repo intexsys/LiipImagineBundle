@@ -21,15 +21,12 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class DriverCompilerPass extends AbstractCompilerPass
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $liipImagineDriver = $container->getParameter('liip_imagine.driver_service');
 
         if (!$container->hasDefinition($liipImagineDriver)) {
-            throw new InvalidConfigurationException(sprintf("Specified driver '%s' is not defined.", $liipImagineDriver));
+            throw new InvalidConfigurationException(\sprintf("Specified driver '%s' is not defined.", $liipImagineDriver));
         }
     }
 }

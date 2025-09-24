@@ -37,9 +37,6 @@ class FlysystemV2Loader implements LoaderInterface
         $this->filesystem = $filesystem;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function find($path)
     {
         try {
@@ -53,7 +50,7 @@ class FlysystemV2Loader implements LoaderInterface
                 $extension
             );
         } catch (FilesystemException $exception) {
-            throw new NotLoadableException(sprintf('Source image "%s" not found.', $path), 0, $exception);
+            throw new NotLoadableException(\sprintf('Source image "%s" not found.', $path), 0, $exception);
         }
     }
 

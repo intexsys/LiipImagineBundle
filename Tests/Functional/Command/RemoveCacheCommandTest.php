@@ -160,7 +160,7 @@ class RemoveCacheCommandTest extends AbstractCommandTestCase
     {
         foreach ($images as $i) {
             foreach ($filters as $f) {
-                $this->assertStringContainsString(sprintf('%s[%s] (skipped)', $i, $f), $output);
+                $this->assertStringContainsString(\sprintf('%s[%s] (skipped)', $i, $f), $output);
             }
         }
     }
@@ -169,7 +169,7 @@ class RemoveCacheCommandTest extends AbstractCommandTestCase
     {
         foreach ($images as $i) {
             foreach ($filters as $f) {
-                $this->assertStringContainsString(sprintf('%s[%s] (removed)', $i, $f), $output);
+                $this->assertStringContainsString(\sprintf('%s[%s] (removed)', $i, $f), $output);
             }
         }
     }
@@ -184,16 +184,16 @@ class RemoveCacheCommandTest extends AbstractCommandTestCase
         $filtersSize = \count($filters);
 
         $totalSize = 0 === $imagesSize ? $filtersSize : ($imagesSize * $filtersSize) - $failures;
-        $this->assertStringContainsString(sprintf('Completed %d removal', $totalSize), $output);
+        $this->assertStringContainsString(\sprintf('Completed %d removal', $totalSize), $output);
 
         if (0 !== $imagesSize) {
-            $this->assertStringContainsString(sprintf('%d image', $imagesSize), $output);
+            $this->assertStringContainsString(\sprintf('%d image', $imagesSize), $output);
         }
 
-        $this->assertStringContainsString(sprintf('%d filter', $filtersSize), $output);
+        $this->assertStringContainsString(\sprintf('%d filter', $filtersSize), $output);
 
         if (0 !== $failures) {
-            $this->assertStringContainsString(sprintf('%d failure', $failures), $output);
+            $this->assertStringContainsString(\sprintf('%d failure', $failures), $output);
         }
     }
 
@@ -203,11 +203,11 @@ class RemoveCacheCommandTest extends AbstractCommandTestCase
      */
     protected function assertOutputNotContainsSummary(string $output, array $images, array $filters, int $failures = 0): void
     {
-        $this->assertStringNotContainsString(sprintf('Completed %d removal', (\count($images) * \count($filters)) - $failures), $output);
-        $this->assertStringNotContainsString(sprintf('%d image', \count($images)), $output);
-        $this->assertStringNotContainsString(sprintf('%d filter', \count($filters)), $output);
+        $this->assertStringNotContainsString(\sprintf('Completed %d removal', (\count($images) * \count($filters)) - $failures), $output);
+        $this->assertStringNotContainsString(\sprintf('%d image', \count($images)), $output);
+        $this->assertStringNotContainsString(\sprintf('%d filter', \count($filters)), $output);
         if (0 !== $failures) {
-            $this->assertStringNotContainsString(sprintf('%d failure', $failures), $output);
+            $this->assertStringNotContainsString(\sprintf('%d failure', $failures), $output);
         }
     }
 
@@ -216,7 +216,7 @@ class RemoveCacheCommandTest extends AbstractCommandTestCase
      * @param string[] $filters
      * @param string[] $additionalOptions
      */
-    private function executeRemoveCacheCommand(array $paths, array $filters = [], array $additionalOptions = [], int &$return = null): string
+    private function executeRemoveCacheCommand(array $paths, array $filters = [], array $additionalOptions = [], ?int &$return = null): string
     {
         $options = array_merge(['paths' => $paths], $additionalOptions);
 

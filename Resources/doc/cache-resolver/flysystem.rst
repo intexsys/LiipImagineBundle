@@ -4,14 +4,19 @@
 Flysystem Resolver
 ==================
 
-The ``FlysystemResolver`` resolver enabled cache resolution using the `Flysystem`_
+The ``FlysystemResolver`` resolver enables cache resolution using the `Flysystem`_
 filesystem abstraction layer.
 
 Dependencies
 ------------
 
-This cache resolver has a soft dependency on `OneupFlysystemBundle`_, which
-can be installed by executing the following command in your project directory:
+This cache resolver uses a ``League\\Flysystem\\Filesystem`` to cache files on any source supported
+by `Flysystem`_. Flysystem is provided by the ``league/flysystem`` package, but the easiest way to
+set up a service is using one of the flysystem bundles. You can use either `OneupFlysystemBundle`_
+or `The League FlysystemBundle`_. Both allow you to define filesystems as services,
+LiipImagineBundle does not care which one you use.
+
+To install the `OneupFlysystemBundle`_, run the following composer command:
 
 .. code-block:: bash
 
@@ -20,10 +25,11 @@ can be installed by executing the following command in your project directory:
 Configuration
 -------------
 
-The value of the ``filesystem_service`` property must be a service that returns an
-instance of ``League\\Flysystem\\Filesystem``.
+The value of ``filesystem_service`` must be a service id of class ``League\\Flysystem\\Filesystem``.
+The service name depends on the naming scheme of the bundle, for `The League FlysystemBundle`_, it
+will be different than in the example below.
 
-The following implementation uses `OneupFlysystemBundle`_.
+Using `OneupFlysystemBundle`_, a basic configuration might look as follows:
 
 .. code-block:: yaml
 
@@ -34,7 +40,7 @@ The following implementation uses `OneupFlysystemBundle`_.
             profile_photos:
                 flysystem:
                     filesystem_service: oneup_flysystem.profile_photos_filesystem
-                    root_url:           "http://images.example.com"
+                    root_url:           "https://images.example.com"
                     cache_prefix:       media/cache
                     visibility:         public
 
@@ -57,11 +63,11 @@ There are several configuration options available:
   prefix inside the given Flysystem.
   Default value: ``media/cache``
 * ``visibility``: one of the two predefined flysystem visibility constants
-  (``AdapterInterface::VISIBILITY_PUBLIC`` [``public``] / ``AdapterInterface::VISIBILITY_PRIVATE`` [``private``])
+  (``Visibility::PUBLIC`` / ``Visibility::PRIVATE`` or if you use flysystem 1.*
+  ``AdapterInterface::VISIBILITY_PUBLIC`` [``public``] / ``AdapterInterface::VISIBILITY_PRIVATE`` [``private``])
   The visibility is applied, when the objects are stored on a flysystem filesystem.
   You will most probably want to leave the default or explicitly set ``public``.
   Default value: ``public``
-
 
 Usage
 -----
@@ -98,3 +104,4 @@ the following configuration.
 
 .. _`Flysystem`: https://github.com/thephpleague/flysystem
 .. _`OneupFlysystemBundle`: https://github.com/1up-lab/OneupFlysystemBundle
+.. _`The League FlysystemBundle`: https://github.com/thephpleague/flysystem-bundle

@@ -17,21 +17,16 @@ use Liip\ImagineBundle\Factory\Config\FilterFactoryInterface;
 
 /**
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class GrayscaleFactory implements FilterFactoryInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return Grayscale::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $options): FilterInterface
     {
         return new Grayscale();

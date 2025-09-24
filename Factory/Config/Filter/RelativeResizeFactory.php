@@ -17,21 +17,16 @@ use Liip\ImagineBundle\Factory\Config\FilterFactoryInterface;
 
 /**
  * @internal
+ *
  * @codeCoverageIgnore
  */
 final class RelativeResizeFactory implements FilterFactoryInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return RelativeResize::NAME;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function create(array $options): FilterInterface
     {
         $heighten = $options['heighten'] ?? null;

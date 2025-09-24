@@ -68,7 +68,7 @@ class ImagineController
         $this->cacheManager = $cacheManager;
 
         if (null === $controllerConfig) {
-            @trigger_error(sprintf(
+            @trigger_error(\sprintf(
                 'Instantiating "%s" without a forth argument of type "%s" is deprecated since 2.2.0 and will be required in 3.0.', self::class, ControllerConfig::class
             ), E_USER_DEPRECATED);
         }
@@ -130,7 +130,7 @@ class ImagineController
         $runtimeConfig = $this->getFiltersBc($request);
 
         if (true !== $this->signer->check($hash, $path, $runtimeConfig)) {
-            throw new BadRequestHttpException(sprintf('Signed url does not pass the sign check for path "%s" and filter "%s" and runtime config %s', $path, $filter, json_encode($runtimeConfig)));
+            throw new BadRequestHttpException(\sprintf('Signed url does not pass the sign check for path "%s" and filter "%s" and runtime config %s', $path, $filter, json_encode($runtimeConfig)));
         }
 
         return $this->createRedirectResponse(function () use ($path, $filter, $runtimeConfig, $resolver, $request) {
@@ -152,14 +152,14 @@ class ImagineController
             } catch (BadRequestException $e) {
                 // for strict BC - BadRequestException seems more suited to this situation.
                 // remove the try-catch in version 3
-                throw new NotFoundHttpException(sprintf('Filters must be an array. Value was "%s"', $request->query->get('filters')));
+                throw new NotFoundHttpException(\sprintf('Filters must be an array. Value was "%s"', $request->query->get('filters')));
             }
         }
 
         $runtimeConfig = $request->query->get('filters', []);
 
         if (!\is_array($runtimeConfig)) {
-            throw new NotFoundHttpException(sprintf('Filters must be an array. Value was "%s"', $runtimeConfig));
+            throw new NotFoundHttpException(\sprintf('Filters must be an array. Value was "%s"', $runtimeConfig));
         }
 
         return $runtimeConfig;
@@ -174,11 +174,11 @@ class ImagineController
                 return new RedirectResponse($this->dataManager->getDefaultImageUrl($filter));
             }
 
-            throw new NotFoundHttpException(sprintf('Source image for path "%s" could not be found', $path), $exception);
+            throw new NotFoundHttpException(\sprintf('Source image for path "%s" could not be found', $path), $exception);
         } catch (NonExistingFilterException $exception) {
-            throw new NotFoundHttpException(sprintf('Requested non-existing filter "%s"', $filter), $exception);
+            throw new NotFoundHttpException(\sprintf('Requested non-existing filter "%s"', $filter), $exception);
         } catch (RuntimeException $exception) {
-            throw new \RuntimeException(vsprintf('Unable to create image for path "%s" and filter "%s". Message was "%s"', [$hash ? sprintf('%s/%s', $hash, $path) : $path, $filter, $exception->getMessage()]), 0, $exception);
+            throw new \RuntimeException(vsprintf('Unable to create image for path "%s" and filter "%s". Message was "%s"', [$hash ? \sprintf('%s/%s', $hash, $path) : $path, $filter, $exception->getMessage()]), 0, $exception);
         }
     }
 

@@ -29,7 +29,7 @@ abstract class AbstractLoaderFactory implements LoaderFactoryInterface
      */
     final protected function getChildLoaderDefinition($name = null)
     {
-        return new ChildDefinition(sprintf('%s.prototype.%s', static::$namePrefix, $name ?: $this->getName()));
+        return new ChildDefinition(\sprintf('%s.prototype.%s', static::$namePrefix, $name ?: $this->getName()));
     }
 
     /**
@@ -46,7 +46,7 @@ abstract class AbstractLoaderFactory implements LoaderFactoryInterface
         $definition->setPublic(true);
 
         $container->setDefinition(
-            $id = sprintf('%s.%s', static::$namePrefix, $name),
+            $id = \sprintf('%s.%s', static::$namePrefix, $name),
             $definition
         );
 
